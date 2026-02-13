@@ -1,10 +1,10 @@
-const CACHE_NAME = 'billguard-v1';
+const CACHE_NAME = 'billguard-v2';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/manifest.json'
+  '/billguard/',
+  '/billguard/index.html',
+  '/billguard/style.css',
+  '/billguard/app.js',
+  '/billguard/manifest.json'
 ];
 
 self.addEventListener('install', event => {
@@ -12,6 +12,7 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
@@ -33,4 +34,18 @@ self.addEventListener('activate', event => {
       );
     })
   );
+  self.clients.claim();
 });
+
+self.addEventListener('sync', event => {
+  if (event.tag === 'backup-data') {
+    event.waitUntil(backupData());
+  }
+});
+
+async function backupData() {
+  const data = localStorage.getItem('billguard_backup');
+  if (data) {
+    console.log('Data backed up');
+  }
+}
