@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#14b8a6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>BillGuard - Smart Expense Tracker</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+<header>
+<h1>💚 BillGuard</h1>
+<div class="health-score">
+<span>Health Score</span>
+<div class="score" id="healthScore">750</div>
+</div>
+</header>
+<nav class="bottom-nav">
+<button class="nav-btn active" data-view="dashboard">
+<span class="icon">📊</span>
+<span>Dashboard</span>
+</button>
+<button class="nav-btn" data-view="bills">
+<span class="icon">📝</span>
+<span>Bills</span>
+</button>
+<button class="nav-btn" data-view="add">
+<span class="icon">➕</span>
+<span>Add</span>
+</button>
+<button class="nav-btn" data-view="history">
+<span class="icon">📈</span>
+<span>History</span>
+</button>
+</nav>
+<div id="dashboard" class="view active">
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-value" id="totalBills">0</div>
+<div class="stat-label">Total Bills</div>
+</div>
+<div class="stat-card">
+<div class="stat-value" id="dueSoon">0</div>
+<div class="stat-label">Due Soon</div>
+</div>
+<div class="stat-card success">
+<div class="stat-value" id="paidOnTime">0</div>
+<div class="stat-label">Paid On Time</div>
+</div>
+<div class="stat-card danger">
+<div class="stat-value" id="delayed">0</div>
+<div class="stat-label">Delayed</div>
+</div>
+</div>
+<div class="section">
+<h2>Upcoming Bills</h2>
+<div id="upcomingBills" class="bill-list"></div>
+</div>
+</div>
+<div id="bills" class="view">
+<div class="filter-tabs">
+<button class="filter-btn active" data-filter="all">All</button>
+<button class="filter-btn" data-filter="pending">Pending</button>
+<button class="filter-btn" data-filter="paid">Paid</button>
+<button class="filter-btn" data-filter="overdue">Overdue</button>
+</div>
+<div id="billsList" class="bill-list"></div>
+</div>
+<div id="add" class="view">
+<form id="addBillForm" class="form">
+<div class="form-group">
+<label>Bill Title</label>
+<input type="text" id="billTitle" required placeholder="e.g., Electric Bill">
+</div>
+<div class="form-group">
+<label>Amount ($)</label>
+<input type="number" id="billAmount" required placeholder="0.00" step="0.01">
+</div>
+<div class="form-group">
+<label>Due Date</label>
+<input type="datetime-local" id="billDueDate" required>
+</div>
+<div class="form-group">
+<label>Bill Type</label>
+<div class="radio-group">
+<label class="radio-label">
+<input type="radio" name="billType" value="one-time" checked>
+<span>One-Time</span>
+</label>
+<label class="radio-label">
+<input type="radio" name="billType" value="recurring">
+<span>Recurring</span>
+</label>
+</div>
+</div>
+<div id="recurringOptions" class="form-group" style="display:none">
+<label>Recurrence</label>
+<select id="recurrence">
+<option value="weekly">Weekly</option>
+<option value="monthly" selected>Monthly</option>
+<option value="yearly">Yearly</option>
+</select>
+</div>
+<div class="form-group">
+<label class="checkbox-label">
+<input type="checkbox" id="affectsScore" checked>
+<span>Affects Health Score</span>
+</label>
+</div>
+<button type="submit" class="btn btn-primary">Add Bill</button>
+</form>
+</div>
+<div id="history" class="view">
+<div class="score-chart">
+<h2>Health Score Trend</h2>
+<canvas id="scoreChart"></canvas>
+</div>
+<div class="section">
+<h2>Payment History</h2>
+<div id="paymentHistory" class="history-list"></div>
+</div>
+</div>
+</div>
+<div id="notificationModal" class="modal">
+<div class="modal-content">
+<h3>⏰ Bill Reminder</h3>
+<p id="notificationText"></p>
+<div class="modal-actions">
+<button class="btn btn-secondary" onclick="closeNotification()">Dismiss</button>
+</div>
+</div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
